@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Form with Image</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="image-section">
+      <img src="https://scopeindia.org/images/scopeindia-logo.webp" width="150" height="auto">
+    </div>
+
+    <div class="login-container">
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+              <input type="text" id="username" name="username" placeholder="Enter email id" required />
+            </div>
+            <button type="submit">Verify </button>
+            <p id="errorMsg" style="color: red; margin-top: 10px;font-size: 20px; text-align: center;"></p>
+          </form>
+          
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Stop default form submission
+  
+      const email = document.getElementById('username').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+  
+      if (email.toLowerCase() === 'asha@gmail.com') {
+        window.location.href = 'verification.html'; // Redirect
+      } else {
+        errorMsg.textContent = 'Invalid email id. Please try again.';
+      }
+    });
+  </script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+  
+      const email = document.getElementById('username').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+  
+      if (email.toLowerCase() === 'asha@gmail.com') {
+        localStorage.setItem('userEmail', email); // ✅ Store email
+        window.location.href = 'verification.html'; // ✅ Go to next page
+      } else {
+        errorMsg.textContent = 'Please enter your registered email id.';
+      }
+    });
+  </script>
+  
+  
+</body>
+</html>
+

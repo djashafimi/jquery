@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+    
+        <div class="left-image">
+          <img src="https://scopeindia.org/images/scopeindia-logo.webp" width="150" height="auto">
+        </div>
+        <h1 style="color: #1a7718; text-align: center;">You have successfully verified</h1></br>
+            <h2 id="verificationMessage" style="color: #dde1dd;text-align: center;"> </h2>
+    
+        <div class="otp-container">
+          <div class="otp-box">
+            
+            
+            <form action="verify.php" method="POST">
+              <div class="otp-inputs">
+                <input type="text" name="otp1" maxlength="1" required />
+                <input type="text" name="otp2" maxlength="1" required />
+                <input type="text" name="otp3" maxlength="1" required />
+                <input type="text" name="otp4" maxlength="1" required />
+                <input type="text" name="otp5" maxlength="1" required />
+              </div>
+              <button type="submit">Verify OTP</button>
+            </form>
+          </div>
+        </div>
+    
+      </div>
+    
+      <script>
+        $(document).ready(function () {
+          const inputs = $('.otp-inputs input');
+      
+          // Focus first box on load
+          inputs.first().focus();
+      
+          // Auto move to next input
+          inputs.on('input', function () {
+            const input = $(this);
+            const value = input.val().replace(/[^0-9]/g, '');
+            input.val(value);
+            if (value.length === 1 && input.next('input').length) {
+              input.next('input').focus();
+            }
+      
+            // Check if all boxes filled
+            const allFilled = Array.from(inputs).every(inp => $(inp).val().length === 1);
+            if (allFilled) {
+              const otp = inputs.map(function () {
+                return $(this).val();
+              }).get().join('');
+      
+              // Clear previous messages
+              $('#successMsg, #errorMsg').remove();
+      
+              if (otp === '12345') {
+                $('.otp-box').append('<div id="successMsg" style="color: green; margin-top: 15px;font-size: 30px;">OTP Verified Successfully!</div>');
+                setTimeout(() => {
+                  window.location.href = 'success.html'; // Redirect on success
+                }, 2000);
+              } else {
+                $('.otp-box').append('<div id="errorMsg" style="color: red; margin-top: 15px;font-size: 20px;">Invalid OTP. Please try again.</div>');
+                inputs.val('');
+                inputs.first().focus();
+              }
+            }
+          });
+      
+          // Backspace: move to previous input if empty
+          inputs.on('keydown', function (e) {
+            if (e.key === 'Backspace' && $(this).val() === '') {
+              $(this).prev('input').focus();
+            }
+          });
+        });
+      </script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const email = localStorage.getItem('userEmail'); // ✅ Get email
+          if (email) {
+            document.getElementById('verificationMessage').textContent =
+              `Enter the OTP sent to ${email}`;
+          }
+        });
+      </script>
+      
+      
+  
+
+</body>
+</html>

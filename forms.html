@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Job Portal - Registration</title>
+    <style>
+        /* Custom styles from user's input */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url(https://scopeindia.org/images/scopeindia-bkg.png), linear-gradient(90deg, rgb(4 11 45) 0%, #04145f 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            color: white;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            /* margin-bottom: 40px; */
+            padding: 20px 0;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo .highlight {
+            color: #ffa500;
+        }
+
+        .subtitle {
+            color: #cccccc;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .form-title {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .progress-step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-step.active {
+            background: #4a90e2;
+            border-color: #4a90e2;
+            box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+        }
+
+        .progress-step.completed {
+            background: #28a745;
+            border-color: #28a745;
+            box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+        }
+
+        .progress-step.completed::after {
+            content: '✓';
+            position: absolute;
+            font-size: 1.5rem;
+            color: white;
+            /* Ensure checkmark is visible */
+        }
+
+        .progress-line {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            flex: 1;
+            margin: 0 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-line.completed {
+            background: #28a745;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Two-column layout for form rows */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Ensure form-group within form-row doesn't have conflicting flex */
+        .form-row .form-group {
+            margin-bottom: 0;
+            /* Reset margin for items within grid */
+        }
+
+        label {
+            display: block;
+            color: #cccccc;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        /* Radio and Checkbox Styling */
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            vertical-align: middle;
+            cursor: pointer;
+            position: relative;
+            background: transparent;
+        }
+
+        input[type="radio"] {
+            border-radius: 50%;
+        }
+
+        input[type="radio"]:checked,
+        input[type="checkbox"]:checked {
+            border-color: #4a90e2;
+            background-color: #4a90e2;
+        }
+
+        input[type="radio"]:checked::before {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            display: block;
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .checkbox-group,
+        .radio-group-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group label,
+        .radio-group-item label {
+            margin-bottom: 0;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .dynamic-section {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .add-btn {
+            background: #ffa500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .add-btn:hover {
+            background: #ff8c00;
+            transform: translateY(-2px);
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .prev-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .prev-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .next-btn {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .skill-rating {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .skill-rating input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .proficiency-label {
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .language-confidence {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .confidence-slider {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .confidence-value {
+            color: #ffa500;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .photo-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #cccccc;
+        }
+
+        .photo-upload:hover {
+            border-color: #4a90e2;
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .photo-upload input {
+            display: none;
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 10px auto;
+            display: block;
+            border: 2px solid #4a90e2;
+        }
+
+        .message-display {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .message-display.info {
+            background-color: #2196f3;
+        }
+
+        .message-display.success {
+            background-color: #4CAF50;
+        }
+
+        .message-display.error {
+            background-color: #f44336;
+        }
+
+        .message-display.hidden {
+            /* Added for explicit hiding */
+            display: none;
+        }
+
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                /* Stack columns on small screens */
+                gap: 0;
+                /* Remove gap when stacked */
+            }
+
+            .progress-step {
+                width: 25px;
+                height: 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="https://scopeindia.org/images/scopeindia-logo.webp" width="150" height="auto">
+            </div>
+            <!-- <div class="subtitle">ISO 9001:2015 CERTIFIED COMPANY</div> -->
+            <div class="form-title">Student Job Portal Registration</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container" id="progress-bar-container">
+            <!-- Steps will be dynamically added here by JavaScript -->
+        </div>
+
+        <!-- Message Display -->
+        <div id="message-display" class="message-display hidden">
+            <span id="message-text"></span>
+        </div>
+
+        <div class="form-container">
+            <form id="registrationForm" onsubmit="event.preventDefault()">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step" data-step="1">
+                    <h2 class="step-title">1. Personal Information</h2>
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth *</label>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactNumber">Contact Number *</label>
+                            <input type="tel" id="contactNumber" name="contactNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="alternatePhone">Alternate Phone</label>
+                            <input type="tel" id="alternatePhone" name="alternatePhone">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Address (Country) *</label>
+                        <input type="text" id="country" name="country" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="state">Address (State) *</label>
+                            <input type="text" id="state" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Address (City) *</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" name="linkedin"
+                                placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+                        <div class="form-group">
+                            <label for="portfolio">GitHub/Portfolio/Website</label>
+                            <input type="url" id="portfolio" name="portfolio"
+                                placeholder="https://github.com/yourusername">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profilePhoto">Profile Photo</label>
+                        <div class="photo-upload" onclick="document.getElementById('profilePhoto').click()">
+                            <input type="file" id="profilePhoto" name="profilePhoto" accept="image/*"
+                                onchange="previewPhoto(this)">
+                            <div id="photoPreview">
+                                <p>Click to upload photo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="placementStatus">Placement Status *</label>
+                        <select id="placementStatus" name="placementStatus" required>
+                            <option value="">Select Status</option>
+                            <option value="Not Placed">Not Placed</option>
+                            <option value="Looking for a Job">Looking for a Job</option>
+                            <option value="Job not required">Job not required</option>
+                            <option value="Already Placed">Already Placed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Family Details -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">2. Family Details</h2>
+                    <div class="form-group">
+                        <label>Marital Status *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="maritalStatusMarried" name="maritalStatus" value="married"
+                                    required>
+                                <label for="maritalStatusMarried">Married</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="maritalStatusUnmarried" name="maritalStatus" value="unmarried">
+                                <label for="maritalStatusUnmarried">Unmarried</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="unmarriedFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="planningToMarry">Planning to marry within</label>
+                            <select id="planningToMarry" name="planningToMarry">
+                                <option value="">Select</option>
+                                <option value="6months">6 months</option>
+                                <option value="1year">1 year</option>
+                                <option value="2years">2 years</option>
+                                <option value="More than 2 years">More than 2 years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="marriedFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="spouseName">Spouse Name</label>
+                            <input type="text" id="spouseName" name="spouseName">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="numberOfChildren">No: of Children</label>
+                                <input type="number" id="numberOfChildren" name="numberOfChildren" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Children Age Group</label>
+                                <div class="flex flex-wrap gap-4">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" name="childrenAgeGroup" value="Under 5">
+                                        <label>Under 5</label>
+                                    </div>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" name="childrenAgeGroup" value="Under 10">
+                                        <label>Under 10</label>
+                                    </div>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" name="childrenAgeGroup" value="Under 15">
+                                        <label>Under 15</label>
+                                    </div>
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" name="childrenAgeGroup" value="15 or above">
+                                        <label>15 or above</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numberOfSeniorCitizens">No: of Senior Citizens</label>
+                        <input type="number" id="numberOfSeniorCitizens" name="numberOfSeniorCitizens" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Age Group of Senior Citizens</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="seniorCitizensAgeGroup" value="Under 60">
+                                <label>Under 60</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="seniorCitizensAgeGroup" value="Under 70">
+                                <label>Under 70</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="seniorCitizensAgeGroup" value="70 and above">
+                                <label>70 and above</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Educational Qualification -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">3. Educational Qualification</h2>
+                    <!-- Default, non-removable education entry -->
+                    <div class="dynamic-section education-item" id="defaultEducationEntry">
+                        <!-- No remove button here -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="education-qualification-default">Qualification *</label>
+                                <input type="text" id="education-qualification-default" name="qualification" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="education-course-default">Course *</label>
+                                <input type="text" id="education-course-default" name="course" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="education-institution-default">College/University/Institution *</label>
+                            <input type="text" id="education-institution-default" name="institution" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="education-yearPassing-default">Year of Passing *</label>
+                                <input type="number" id="education-yearPassing-default" name="yearPassing"
+                                    value="${eduData.yearPassing || ''}" min="1900" max="2100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="education-duration-default">Duration (in years)</label>
+                                <input type="number" id="education-duration-default" name="duration"
+                                    value="${eduData.duration || ''}" min="0.5" max="10" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="education-grade-default">Percentage/CGPA</label>
+                                <input type="text" id="education-grade-default" name="grade"
+                                    value="${eduData.grade || ''}" placeholder="e.g., 85% or 8.5">
+                            </div>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="education-highestQualification-default"
+                                name="highestQualification">
+                            <label for="education-highestQualification-default">This is my highest qualification</label>
+                        </div>
+                    </div>
+
+                    <div id="educationContainer">
+                        <!-- Dynamic education entries will be added here -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addEducation()">Add Education</button>
+                </div>
+
+                <!-- Step 4: Work Experience -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title">4. Work Experience</h2>
+                    <div class="form-group">
+                        <label>Do you have work experience? *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="hasWorkExperienceYes" name="hasWorkExperience" value="Yes"
+                                    required>
+                                <label for="hasWorkExperienceYes">Yes</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="hasWorkExperienceNo" name="hasWorkExperience" value="No">
+                                <label for="hasWorkExperienceNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="workExperienceContent" style="display: none;">
+                        <div id="workExperienceContainer">
+                            <!-- Dynamic work experience entries will be added here -->
+                        </div>
+                        <button type="button" class="add-btn" onclick="addWorkExperience()">Add Work Experience</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Projects -->
+                <div class="form-step" data-step="5">
+                    <h2 class="step-title">5. Projects</h2>
+                    <div class="form-group">
+                        <label>Do you have any projects? *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="hasProjectsYes" name="hasProjects" value="Yes" required>
+                                <label for="hasProjectsYes">Yes</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="hasProjectsNo" name="hasProjects" value="No">
+                                <label for="hasProjectsNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="projectsContent" style="display: none;">
+                        <div id="projectsContainer">
+                            <!-- Dynamic project entries will be added here -->
+                        </div>
+                        <button type="button" class="add-btn" onclick="addProject()">Add Project</button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Skills & Languages Known -->
+                <div class="form-step" data-step="6">
+                    <h2 class="step-title">6. Skills & Languages Known</h2>
+
+                    <h3 class=" font-semibold text-white mb-3">Skills</h3>
+                    <div id="skillsContainer">
+                        <!-- Dynamic skill entries will be added here -->
+                    </div>
+                    <button type="button" class="add-btn mt-3" onclick="addSkill()">Add Skill</button>
+
+                    <h3 class="text-xl font-semibold text-white mb-3 mt-8">Languages Known</h3>
+                    <div id="languagesContainer">
+                        <!-- Dynamic language entries will be added here -->
+                    </div>
+                    <button type="button" class="add-btn mt-3" onclick="addLanguage()">Add Language</button>
+                </div>
+
+                <!-- Step 7: Job Preferences -->
+                <div class="form-step" data-step="7">
+                    <h2 class="step-title">7. Job Preferences</h2>
+
+                    <h3 class="text-xl font-semibold text-white mb-3">Preferred Job Roles</h3>
+                    <div id="jobRolesContainer">
+                        <!-- Dynamic job role entries will be added here -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addJobRole()">Add Job Role</button>
+
+                    <div class="form-group">
+                        <label for="preferredLocations">Preferred Locations *</label>
+                        <input type="text" id="preferredLocations" name="preferredLocations"
+                            placeholder="Comma separated, e.g., Kochi, Bangalore" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Willing to Relocate *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="relocateYes" name="willingToRelocate" value="Yes" required>
+                                <label for="relocateYes">Yes</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="relocateNo" name="willingToRelocate" value="No">
+                                <label for="relocateNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Willing to work in different shift *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="shiftYes" name="willingToWorkShift" value="Yes" required>
+                                <label for="shiftYes">Yes</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="shiftNo" name="willingToWorkShift" value="No">
+                                <label for="shiftNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferredHours">Preferred hours of work a day *</label>
+                        <select id="preferredHours" name="preferredHours" required>
+                            <option value="">Select</option>
+                            <option value="9hours or below">9 hours or below</option>
+                            <option value="12hours or below">12 hours or below</option>
+                            <option value="Above 12hours">Above 12 hours</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Employment Type *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="employmentType" value="Full-time" required>
+                                <label>Full-time</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="employmentType" value="Part-time">
+                                <label>Part-time</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="employmentType" value="Internship">
+                                <label>Internship</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="employmentType" value="Remote">
+                                <label>Remote</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Immediate Joiner *</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="radio-group-item">
+                                <input type="radio" id="immediateYes" name="immediateJoiner" value="Yes" required>
+                                <label for="immediateYes">Yes</label>
+                            </div>
+                            <div class="radio-group-item">
+                                <input type="radio" id="immediateNo" name="immediateJoiner" value="No">
+                                <label for="immediateNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="availabilityGroup" style="display: none;">
+                        <label for="availability">Availability (Notice period if employed) *</label>
+                        <input type="text" id="availability" name="availability" placeholder="e.g., 30 days, 2 months">
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-navigation">
+                    <button type="button" class="nav-btn prev-btn" style="display: none;">Previous</button>
+                    <button type="button" class="nav-btn next-btn">Next</button>
+                    <button type="submit" class="nav-btn submit-btn" style="display: none;">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 7;
+        let formData = {}; // Local storage for form data
+        let completedSteps = new Set();
+        let messageTimeoutId; // To store the timeout ID for hiding messages
+
+        const formSteps = document.querySelectorAll('.form-step');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const prevButton = document.querySelector('.prev-btn');
+        const nextButton = document.querySelector('.next-btn');
+        const submitButton = document.querySelector('.submit-btn');
+        const messageDisplay = document.getElementById('message-display');
+        const messageText = document.getElementById('message-text');
+
+        // Helper to show messages
+        function showMessage(msg, type = 'info') {
+            // Clear any existing timeout to prevent conflicts
+            if (messageTimeoutId) {
+                clearTimeout(messageTimeoutId);
+            }
+
+            messageText.textContent = msg;
+            // Remove all type classes and 'hidden' class, then add the new type and 'message-display'
+            messageDisplay.classList.remove('info', 'success', 'error', 'hidden');
+            messageDisplay.classList.add('message-display', type); // Ensure 'message-display' is always present
+
+            // Set a new timeout to hide the message after 3 seconds
+            messageTimeoutId = setTimeout(() => {
+                messageDisplay.classList.add('hidden'); // Add 'hidden' class to hide the entire div
+                messageText.textContent = ''; // Clear text as well
+                messageDisplay.classList.remove('info', 'success', 'error'); // Clean up type classes when hidden
+            }, 3000);
+        }
+
+        // Show a specific step
+        function showStep(stepNum) {
+            formSteps.forEach((stepElement) => {
+                const step = parseInt(stepElement.dataset.step);
+                if (step === stepNum) {
+                    stepElement.classList.add('active');
+                } else {
+                    stepElement.classList.remove('active');
+                }
+            });
+
+            // Update button visibility
+            prevButton.style.display = stepNum > 1 ? 'block' : 'none';
+            nextButton.style.display = stepNum < totalSteps ? 'block' : 'none';
+            submitButton.style.display = stepNum === totalSteps ? 'block' : 'none';
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            progressBarContainer.innerHTML = ''; // Clear existing steps
+
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepDiv = document.createElement('div');
+                stepDiv.classList.add('progress-step');
+                stepDiv.textContent = i;
+                stepDiv.dataset.step = i;
+
+                if (completedSteps.has(i)) {
+                    stepDiv.classList.add('completed');
+                } else if (currentStep === i) {
+                    stepDiv.classList.add('active');
+                }
+
+                // Disable clicks on future steps that are not the immediate next one
+                if (i > completedSteps.size + 1) {
+                    stepDiv.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+
+                stepDiv.addEventListener('click', () => {
+                    const targetStep = parseInt(stepDiv.dataset.step);
+                    if (targetStep <= completedSteps.size + 1) {
+                        currentStep = targetStep;
+                        showStep(currentStep);
+                        updateProgressBar();
+                        populateForm(); // Repopulate form fields when navigating
+                    }
+                });
+                progressBarContainer.appendChild(stepDiv);
+
+                if (i < totalSteps) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.classList.add('progress-line');
+                    if (completedSteps.has(i)) { // Line is completed if the step before it is completed
+                        lineDiv.classList.add('completed');
+                    }
+                    progressBarContainer.appendChild(lineDiv);
+                }
+            }
+        }
+
+        // Handle input changes and update formData
+        function handleChange(e, section, index = null, subKey = null) {
+            const { name, value, type, checked } = e.target;
+
+            if (!formData[section]) {
+                formData[section] = {};
+            }
+
+            if (index !== null) { // For dynamic arrays (education, workExperience, etc.)
+                // Determine the correct array to modify
+                let targetArray;
+                if (Array.isArray(formData[section])) {
+                    targetArray = formData[section];
+                } else if (formData[section] && Array.isArray(formData[section].entries)) {
+                    targetArray = formData[section].entries;
+                } else {
+                    // If it's supposed to be an array but isn't, initialize it
+                    formData[section] = [];
+                    targetArray = formData[section];
+                }
+
+                if (!targetArray[index]) {
+                    targetArray[index] = {};
+                }
+                if (subKey) { // For specific sub-keys like read/write/speak in languages
+                    targetArray[index][subKey] = type === 'checkbox' ? checked : value;
+                } else if (type === 'checkbox') { // For highestQualification checkbox
+                    targetArray[index][name] = checked;
+                } else if (type === 'radio') { // For skill proficiency radios
+                    targetArray[index][name] = value;
+                } else {
+                    targetArray[index][name] = value;
+                }
+            } else { // For single objects (personalInfo, familyDetails, jobPreferences)
+                if (type === 'checkbox') { // For general checkboxes like childrenAgeGroup, seniorCitizensAgeGroup, employmentType
+                    let currentValues = new Set(formData[section][name] || []);
+                    if (checked) {
+                        currentValues.add(value);
+                    } else {
+                        currentValues.delete(value);
+                    }
+                    formData[section][name] = Array.from(currentValues);
+                } else if (type === 'radio') { // For general radios like maritalStatus, willingToRelocate, immediateJoiner
+                    formData[section][name] = value;
+                } else {
+                    formData[section][name] = value;
+                }
+            }
+            console.log('formData updated:', formData);
+        }
+
+        // Populate form fields from formData
+        function populateForm() {
+            // Personal Information (Step 1)
+            const personalInfo = formData.personalInfo || {};
+            document.getElementById('fullName').value = personalInfo.fullName || '';
+            document.getElementById('dob').value = personalInfo.dob || '';
+            document.querySelectorAll('input[name="gender"]').forEach(radio => {
+                radio.checked = radio.value === personalInfo.gender;
+            });
+            document.getElementById('contactNumber').value = personalInfo.contactNumber || '';
+            document.getElementById('alternatePhone').value = personalInfo.alternatePhone || '';
+            document.getElementById('email').value = personalInfo.email || '';
+            document.getElementById('country').value = personalInfo.country || '';
+            document.getElementById('state').value = personalInfo.state || '';
+            document.getElementById('city').value = personalInfo.city || '';
+            document.getElementById('linkedin').value = personalInfo.linkedin || '';
+            document.getElementById('portfolio').value = personalInfo.portfolio || '';
+            // Profile photo preview - needs to handle base64 or URL if saved
+            const photoPreviewDiv = document.getElementById('photoPreview');
+            if (personalInfo.profilePhotoUrl) {
+                photoPreviewDiv.innerHTML = `<img src="${personalInfo.profilePhotoUrl}" class="photo-preview" alt="Profile Photo">`;
+            } else {
+                photoPreviewDiv.innerHTML = `<p>Click to upload photo</p>`;
+            }
+            document.getElementById('placementStatus').value = personalInfo.placementStatus || '';
+
+            // Family Details (Step 2)
+            const familyDetails = formData.familyDetails || {};
+            document.querySelectorAll('input[name="maritalStatus"]').forEach(radio => {
+                radio.checked = radio.value === familyDetails.maritalStatus;
+            });
+            toggleMaritalFields(familyDetails.maritalStatus); // Initial toggle based on loaded data
+            document.getElementById('planningToMarry').value = familyDetails.planningToMarry || '';
+            document.getElementById('spouseName').value = familyDetails.spouseName || '';
+            document.getElementById('numberOfChildren').value = familyDetails.numberOfChildren || '';
+            document.querySelectorAll('input[name="childrenAgeGroup"]').forEach(checkbox => {
+                checkbox.checked = (familyDetails.childrenAgeGroup || []).includes(checkbox.value);
+            });
+            document.getElementById('numberOfSeniorCitizens').value = familyDetails.numberOfSeniorCitizens || '';
+            document.querySelectorAll('input[name="seniorCitizensAgeGroup"]').forEach(checkbox => {
+                checkbox.checked = (familyDetails.seniorCitizensAgeGroup || []).includes(checkbox.value);
+            });
+
+            // Educational Qualification (Step 3) - Handle default entry separately
+            const educationData = formData.education || [];
+            const defaultEdu = educationData[0] || {};
+
+            // Populate default education entry
+            document.getElementById('education-qualification-default').value = defaultEdu.qualification || '';
+            document.getElementById('education-course-default').value = defaultEdu.course || '';
+            document.getElementById('education-institution-default').value = defaultEdu.institution || '';
+            document.getElementById('education-yearPassing-default').value = defaultEdu.yearPassing || '';
+            document.getElementById('education-duration-default').value = defaultEdu.duration || '';
+            document.getElementById('education-grade-default').value = defaultEdu.grade || '';
+            document.getElementById('education-highestQualification-default').checked = defaultEdu.highestQualification || false;
+
+            // Add event listeners to the default fields
+            document.querySelectorAll('#defaultEducationEntry input, #defaultEducationEntry select, #defaultEducationEntry textarea').forEach(input => {
+                input.addEventListener('change', (e) => handleChange(e, 'education', 0)); // Pass 0 as index for the default entry
+            });
+
+
+            // Dynamic sections
+            // For education, we render dynamic entries starting from index 1
+            renderDynamicSection('education', 'educationContainer', createEducationEntry, 1);
+
+            // Work Experience (Step 4)
+            const workExperienceData = formData.workExperience || {};
+            document.querySelectorAll('input[name="hasWorkExperience"]').forEach(radio => {
+                radio.checked = radio.value === workExperienceData.hasWorkExperience;
+            });
+            toggleWorkExperienceFields(workExperienceData.hasWorkExperience);
+            renderDynamicSection('workExperience', 'workExperienceContainer', createWorkExperienceEntry);
+
+            // Projects (Step 5)
+            const projectsData = formData.projects || {};
+            document.querySelectorAll('input[name="hasProjects"]').forEach(radio => {
+                radio.checked = radio.value === projectsData.hasProjects;
+            });
+            toggleProjectFields(projectsData.hasProjects);
+            renderDynamicSection('projects', 'projectsContainer', createProjectEntry);
+
+            renderDynamicSection('skills', 'skillsContainer', createSkillEntry);
+            renderDynamicSection('languages', 'languagesContainer', createLanguageEntry);
+            renderDynamicSection('preferredJobRoles', 'jobRolesContainer', createJobRoleEntry);
+
+
+            // Job Preferences (Step 7)
+            const jobPreferences = formData.jobPreferences || {};
+            document.getElementById('preferredLocations').value = jobPreferences.preferredLocations || '';
+            document.querySelectorAll('input[name="willingToRelocate"]').forEach(radio => {
+                radio.checked = radio.value === jobPreferences.willingToRelocate;
+            });
+            document.querySelectorAll('input[name="willingToWorkShift"]').forEach(radio => {
+                radio.checked = radio.value === jobPreferences.willingToWorkShift;
+            });
+            document.getElementById('preferredHours').value = jobPreferences.preferredHours || '';
+            document.querySelectorAll('input[name="employmentType"]').forEach(checkbox => {
+                checkbox.checked = (jobPreferences.employmentType || []).includes(checkbox.value);
+            });
+            document.querySelectorAll('input[name="immediateJoiner"]').forEach(radio => {
+                radio.checked = radio.value === jobPreferences.immediateJoiner;
+            });
+            toggleAvailabilityField(jobPreferences.immediateJoiner); // Initial toggle for availability
+            document.getElementById('availability').value = jobPreferences.availability || '';
+        }
+
+        // Toggle visibility of family details fields based on marital status
+        function toggleMaritalFields(maritalStatus) {
+            const unmarriedFields = document.getElementById('unmarriedFields');
+            const marriedFields = document.getElementById('marriedFields');
+
+            if (maritalStatus === 'unmarried') {
+                unmarriedFields.style.display = 'block';
+                marriedFields.style.display = 'none';
+            } else if (maritalStatus === 'married') {
+                unmarriedFields.style.display = 'none';
+                marriedFields.style.display = 'block';
+            } else {
+                unmarriedFields.style.display = 'none';
+                marriedFields.style.display = 'none';
+            }
+        }
+
+        // Toggle visibility of availability field based on immediate joiner status
+        function toggleAvailabilityField(immediateJoinerStatus) {
+            const availabilityGroup = document.getElementById('availabilityGroup');
+            if (immediateJoinerStatus === 'No') {
+                availabilityGroup.style.display = 'block';
+            } else {
+                availabilityGroup.style.display = 'none';
+                document.getElementById('availability').value = ''; // Clear if hidden
+            }
+        }
+
+        // Toggle visibility of Work Experience fields
+        function toggleWorkExperienceFields(hasExperience) {
+            const workExperienceContent = document.getElementById('workExperienceContent');
+            if (hasExperience === 'Yes') {
+                workExperienceContent.style.display = 'block';
+            } else {
+                workExperienceContent.style.display = 'none';
+                // Clear work experience data if "No" is selected
+                formData.workExperience = { hasWorkExperience: 'No' }; // Keep the flag, clear other data
+                renderDynamicSection('workExperience', 'workExperienceContainer', createWorkExperienceEntry); // Re-render to clear
+            }
+        }
+
+        // Toggle visibility of Project fields
+        function toggleProjectFields(hasProjects) {
+            const projectsContent = document.getElementById('projectsContent');
+            if (hasProjects === 'Yes') {
+                projectsContent.style.display = 'block';
+            } else {
+                projectsContent.style.display = 'none';
+                // Clear project data if "No" is selected
+                formData.projects = { hasProjects: 'No' }; // Keep the flag, clear other data
+                renderDynamicSection('projects', 'projectsContainer', createProjectEntry); // Re-render to clear
+            }
+        }
+
+
+        // Generic function to render dynamic sections
+        function renderDynamicSection(sectionName, containerId, createEntryFn, startIndex = 0) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear existing entries
+
+            let sectionData = [];
+            if (Array.isArray(formData[sectionName])) { // For education, skills, languages, jobRoles
+                sectionData = formData[sectionName];
+            } else if (formData[sectionName] && Array.isArray(formData[sectionName].entries)) { // For workExperience, projects
+                sectionData = formData[sectionName].entries;
+            }
+
+            for (let i = startIndex; i < sectionData.length; i++) {
+                const item = sectionData[i];
+                const entryDiv = createEntryFn(i, item);
+                container.appendChild(entryDiv);
+            }
+        }
+
+        // Functions to create dynamic entries
+        function createEducationEntry(index, eduData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'education-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="education" data-index="${index}">Remove</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="education-qualification-${index}">Qualification *</label>
+                        <input type="text" id="education-qualification-${index}" name="qualification" value="${eduData.qualification || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="education-course-${index}">Course *</label>
+                        <input type="text" id="education-course-${index}" name="course" value="${eduData.course || ''}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="education-institution-${index}">College/University/Institution *</label>
+                    <input type="text" id="education-institution-${index}" name="institution" value="${eduData.institution || ''}" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="education-yearPassing-${index}">Year of Passing *</label>
+                        <input type="number" id="education-yearPassing-${index}" name="yearPassing" value="${eduData.yearPassing || ''}" min="1900" max="2100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="education-duration-${index}">Duration (in years)</label>
+                        <input type="number" id="education-duration-${index}" name="duration" value="${eduData.duration || ''}" min="0.5" max="10" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="education-grade-${index}">Percentage/CGPA</label>
+                        <input type="text" id="education-grade-${index}" name="grade" value="${eduData.grade || ''}" placeholder="e.g., 85% or 8.5">
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="education-highestQualification-${index}" name="highestQualification" ${eduData.highestQualification ? 'checked' : ''}>
+                    <label for="education-highestQualification-${index}">This is my highest qualification</label>
+                </div>
+            `;
+            div.querySelectorAll('input, select, textarea').forEach(input => {
+                input.addEventListener('change', (e) => handleChange(e, 'education', index));
+            });
+            return div;
+        }
+
+        function createWorkExperienceEntry(index, workData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'work-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="workExperience" data-index="${index}">Remove</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="work-companyName-${index}">Company Name</label>
+                        <input type="text" id="work-companyName-${index}" name="companyName" value="${workData.companyName || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label for="work-designation-${index}">Designation</label>
+                        <input type="text" id="work-designation-${index}" name="designation" value="${workData.designation || ''}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="work-fromDate-${index}">From Date</label>
+                        <input type="date" id="work-fromDate-${index}" name="fromDate" value="${workData.fromDate || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label for="work-toDate-${index}">To Date</label>
+                        <input type="date" id="work-toDate-${index}" name="toDate" value="${workData.toDate || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label for="work-duration-${index}">Duration (Months)</label>
+                        <input type="number" id="work-duration-${index}" name="workDuration" value="${workData.workDuration || ''}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="work-responsibilities-${index}">Responsibilities</label>
+                    <textarea id="work-responsibilities-${index}" name="responsibilities" rows="3">${workData.responsibilities || ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="work-technologiesUsed-${index}">Technologies Used</label>
+                    <input type="text" id="work-technologiesUsed-${index}" name="technologiesUsed" value="${workData.technologiesUsed || ''}" placeholder="e.g., Java, Python, React">
+                </div>
+            `;
+            div.querySelectorAll('input, select, textarea').forEach(input => {
+                if (input.name === 'fromDate' || input.name === 'toDate') {
+                    input.addEventListener('change', (e) => {
+                        // For workExperience, the entries are in a nested 'entries' array
+                        if (!formData.workExperience.entries) formData.workExperience.entries = [];
+                        if (!formData.workExperience.entries[index]) formData.workExperience.entries[index] = {};
+                        formData.workExperience.entries[index][e.target.name] = e.target.value;
+                        calculateDuration(div, index);
+                        console.log('formData updated:', formData);
+                    });
+                } else {
+                    // For workExperience, the entries are in a nested 'entries' array
+                    if (!formData.workExperience.entries) formData.workExperience.entries = [];
+                    if (!formData.workExperience.entries[index]) formData.workExperience.entries[index] = {};
+                    formData.workExperience.entries[index][input.name] = input.value;
+                    console.log('formData updated:', formData);
+                }
+            });
+            // Initial calculation if dates are already present
+            if (workData.fromDate && workData.toDate) {
+                calculateDuration(div, index);
+            }
+            return div;
+        }
+
+        function calculateDuration(containerDiv, index) {
+            const fromDateInput = containerDiv.querySelector('input[name="fromDate"]');
+            const toDateInput = containerDiv.querySelector('input[name="toDate"]');
+            const durationField = containerDiv.querySelector('input[name="workDuration"]');
+
+            const fromDate = fromDateInput ? fromDateInput.value : '';
+            const toDate = toDateInput ? toDateInput.value : '';
+
+            if (fromDate && toDate) {
+                const from = new Date(fromDate);
+                const to = new Date(toDate);
+                const diffTime = Math.abs(to - from);
+                const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.44)); // Average days in month
+                durationField.value = diffMonths;
+                if (formData.workExperience.entries && formData.workExperience.entries[index]) {
+                    formData.workExperience.entries[index].workDuration = diffMonths; // Update nested formData directly
+                }
+            } else {
+                durationField.value = '';
+                if (formData.workExperience.entries && formData.workExperience.entries[index]) {
+                    delete formData.workExperience.entries[index].workDuration;
+                }
+            }
+        }
+
+        function createProjectEntry(index, projectData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'project-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="projects" data-index="${index}">Remove</button>
+                <div class="form-group">
+                    <label for="project-title-${index}">Project Title *</label>
+                    <input type="text" id="project-title-${index}" name="projectTitle" value="${projectData.projectTitle || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="project-description-${index}">Description *</label>
+                    <textarea id="project-description-${index}" name="description" rows="3" required>${projectData.description || ''}</textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="project-technologiesUsed-${index}">Technologies Used</label>
+                        <input type="text" id="project-technologiesUsed-${index}" name="technologiesUsed" value="${projectData.technologiesUsed || ''}" placeholder="e.g., React, Node.js, MongoDB">
+                    </div>
+                    <div class="form-group">
+                        <label for="project-role-${index}">Your Role</label>
+                        <input type="text" id="project-role-${index}" name="role" value="${projectData.role || ''}" placeholder="e.g., Frontend Developer">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="project-link-${index}">GitHub/Project Link</label>
+                    <input type="url" id="project-link-${index}" name="projectLink" value="${projectData.projectLink || ''}" placeholder="https://github.com/username/project">
+                </div>
+            `;
+            div.querySelectorAll('input, select, textarea').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    // For projects, the entries are in a nested 'entries' array
+                    if (!formData.projects.entries) formData.projects.entries = [];
+                    if (!formData.projects.entries[index]) formData.projects.entries[index] = {};
+                    formData.projects.entries[index][input.name] = input.value;
+                    console.log('formData updated:', formData);
+                });
+            });
+            return div;
+        }
+
+        function createSkillEntry(index, skillData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'skill-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="skills" data-index="${index}">Remove</button>
+                <div class="form-group">
+                    <label for="skill-name-${index}">Skill Name *</label>
+                    <input type="text" id="skill-name-${index}" name="skillName" value="${skillData.skillName || ''}" required>
+                </div>
+                <div class="skill-rating">
+                    <span class="proficiency-label">Proficiency:</span>
+                    <div class="radio-group-item">
+                        <input type="radio" name="proficiency-${index}" value="Beginner" id="skill-beginner-${index}" ${skillData.proficiency === 'Beginner' ? 'checked' : ''}>
+                        <label for="skill-beginner-${index}" class="proficiency-label">Beginner</label>
+                    </div>
+                    <div class="radio-group-item">
+                        <input type="radio" name="proficiency-${index}" value="Intermediate" id="skill-intermediate-${index}" ${skillData.proficiency === 'Intermediate' ? 'checked' : ''}>
+                        <label for="skill-intermediate-${index}" class="proficiency-label">Intermediate</label>
+                    </div>
+                    <div class="radio-group-item">
+                        <input type="radio" name="proficiency-${index}" value="Expert" id="skill-expert-${index}" ${skillData.proficiency === 'Expert' ? 'checked' : ''}>
+                        <label for="skill-expert-${index}" class="proficiency-label">Expert</label>
+                    </div>
+                </div>
+            `;
+            div.querySelector(`input[name="skillName"]`).addEventListener('change', (e) => handleChange(e, 'skills', index));
+            div.querySelectorAll(`input[name="proficiency-${index}"]`).forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    formData.skills[index].proficiency = e.target.value;
+                    console.log('formData updated:', formData);
+                });
+            });
+            return div;
+        }
+
+        function createLanguageEntry(index, langData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'language-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="languages" data-index="${index}">Remove</button>
+                <div class="form-group">
+                    <label for="language-name-${index}">Language Name *</label>
+                    <input type="text" id="language-name-${index}" name="languageName" value="${langData.languageName || ''}" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-read-${index}" name="read" ${langData.read ? 'checked' : ''}>
+                            <label for="lang-read-${index}">Read</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-write-${index}" name="write" ${langData.write ? 'checked' : ''}>
+                            <label for="lang-write-${index}">Write</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lang-speak-${index}" name="speak" ${langData.speak ? 'checked' : ''}>
+                            <label for="lang-speak-${index}">Speak</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="language-confidence">
+                    <span class="proficiency-label">Confidence:</span>
+                    <input type="range" id="lang-confidence-${index}" name="confidence" min="0" max="100" value="${langData.confidence || 0}" class="confidence-slider">
+                    <span class="confidence-value">${langData.confidence || 0}%</span>
+                </div>
+            `;
+            div.querySelector(`input[name="languageName"]`).addEventListener('change', (e) => handleChange(e, 'languages', index));
+            div.querySelector(`input[name="read"]`).addEventListener('change', (e) => { formData.languages[index].read = e.target.checked; console.log('formData updated:', formData); });
+            div.querySelector(`input[name="write"]`).addEventListener('change', (e) => { formData.languages[index].write = e.target.checked; console.log('formData updated:', formData); });
+            div.querySelector(`input[name="speak"]`).addEventListener('change', (e) => { formData.languages[index].speak = e.target.checked; console.log('formData updated:', formData); });
+            const confidenceSlider = div.querySelector(`input[name="confidence"]`);
+            const confidenceValueSpan = div.querySelector('.confidence-value');
+            confidenceSlider.addEventListener('input', (e) => {
+                confidenceValueSpan.textContent = e.target.value + '%';
+                formData.languages[index].confidence = parseInt(e.target.value);
+                console.log('formData updated:', formData);
+            });
+            return div;
+        }
+
+        function createJobRoleEntry(index, roleData = {}) {
+            const div = document.createElement('div');
+            div.classList.add('dynamic-section', 'job-role-item');
+            div.innerHTML = `
+                <button type="button" class="remove-btn" data-section="preferredJobRoles" data-index="${index}">Remove</button>
+                <div class="form-group">
+                    <label for="job-role-name-${index}">Job Role *</label>
+                    <input type="text" id="job-role-name-${index}" name="roleName" value="${roleData.roleName || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="job-expectedSalary-${index}">Expected Salary</label>
+                    <input type="number" id="job-expectedSalary-${index}" name="expectedSalary" value="${roleData.expectedSalary || ''}" min="0">
+                </div>
+            `;
+            div.querySelectorAll('input, select, textarea').forEach(input => {
+                input.addEventListener('change', (e) => handleChange(e, 'preferredJobRoles', index));
+            });
+            return div;
+        }
+
+        // Add item event listeners
+        // The addEducation function is now called directly from the button in the HTML.
+        // It will add new entries to formData.education starting from index 1.
+        document.querySelectorAll('.form-step[data-step="4"] input[name="hasWorkExperience"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Store Yes/No directly on the workExperience object
+                formData.workExperience = { ...(formData.workExperience || {}), hasWorkExperience: e.target.value };
+                toggleWorkExperienceFields(e.target.value);
+                console.log('formData updated:', formData);
+            });
+        });
+
+        document.querySelectorAll('.form-step[data-step="5"] input[name="hasProjects"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Store Yes/No directly on the projects object
+                formData.projects = { ...(formData.projects || {}), hasProjects: e.target.value };
+                toggleProjectFields(e.target.value);
+                console.log('formData updated:', formData);
+            });
+        });
+
+        document.querySelector('.form-step[data-step="4"] .add-btn').addEventListener('click', () => {
+            if (!formData.workExperience) formData.workExperience = {};
+            if (!Array.isArray(formData.workExperience.entries)) {
+                formData.workExperience.entries = [];
+            }
+            formData.workExperience.entries.push({});
+            renderDynamicSection('workExperience', 'workExperienceContainer', createWorkExperienceEntry);
+        });
+        document.querySelector('.form-step[data-step="5"] .add-btn').addEventListener('click', () => {
+            if (!formData.projects) formData.projects = {};
+            if (!Array.isArray(formData.projects.entries)) {
+                formData.projects.entries = [];
+            }
+            formData.projects.entries.push({});
+            renderDynamicSection('projects', 'projectsContainer', createProjectEntry);
+        });
+        document.querySelector('.form-step[data-step="6"] .add-btn:first-of-type').addEventListener('click', () => { // Skills add button
+            if (!formData.skills) formData.skills = [];
+            formData.skills.push({ proficiency: 'Beginner' });
+            renderDynamicSection('skills', 'skillsContainer', createSkillEntry);
+        });
+        document.querySelector('.form-step[data-step="6"] .add-btn:last-of-type').addEventListener('click', () => { // Languages add button
+            if (!formData.languages) formData.languages = [];
+            formData.languages.push({ read: false, write: false, speak: false, confidence: 0 });
+            renderDynamicSection('languages', 'languagesContainer', createLanguageEntry);
+        });
+        document.querySelector('.form-step[data-step="7"] .add-btn').addEventListener('click', () => { // Job Roles add button
+            if (!formData.preferredJobRoles) formData.preferredJobRoles = [];
+            formData.preferredJobRoles.push({});
+            renderDynamicSection('preferredJobRoles', 'jobRolesContainer', createJobRoleEntry);
+        });
+
+
+        // Event delegation for remove buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-btn')) {
+                const section = e.target.dataset.section;
+                const indexToRemove = parseInt(e.target.dataset.index);
+                // Ensure we don't remove the first (default) education entry if section is 'education' and index is 0
+                if (section === 'education' && indexToRemove === 0) {
+                    showMessage('The default educational qualification cannot be removed.', 'info');
+                    return;
+                }
+
+                if (Array.isArray(formData[section])) { // For education, skills, languages, jobRoles
+                    formData[section].splice(indexToRemove, 1);
+                    // Re-render the specific section to update indices and display
+                    if (section === 'education') renderDynamicSection('education', 'educationContainer', createEducationEntry, 1); // Start from index 1
+                    else if (section === 'skills') renderDynamicSection('skills', 'skillsContainer', createSkillEntry);
+                    else if (section === 'languages') renderDynamicSection('languages', 'languagesContainer', createLanguageEntry);
+                    else if (section === 'preferredJobRoles') renderDynamicSection('preferredJobRoles', 'jobRolesContainer', createJobRoleEntry);
+                } else if (formData[section] && formData[section].entries && Array.isArray(formData[section].entries)) {
+                    // For sections like workExperience and projects where entries are nested
+                    formData[section].entries.splice(indexToRemove, 1);
+                    if (section === 'workExperience') renderDynamicSection('workExperience', 'workExperienceContainer', createWorkExperienceEntry);
+                    else if (section === 'projects') renderDynamicSection('projects', 'projectsContainer', createProjectEntry);
+                }
+            }
+        });
+
+        // Event listeners for static fields (Personal Info, Family Details, Job Preferences)
+        document.querySelectorAll('.form-step[data-step="1"] input:not([type="file"]), .form-step[data-step="1"] select, .form-step[data-step="1"] textarea').forEach(input => {
+            input.addEventListener('change', (e) => handleChange(e, 'personalInfo'));
+        });
+
+        // Event listener for profile photo file input
+        document.getElementById('profilePhoto').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const photoPreviewDiv = document.getElementById('photoPreview');
+                    photoPreviewDiv.innerHTML = `<img src="${event.target.result}" class="photo-preview" alt="Profile Photo">`;
+                    formData.personalInfo = { ...(formData.personalInfo || {}), profilePhotoUrl: event.target.result };
+                    console.log('formData updated:', formData);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const photoPreviewDiv = document.getElementById('photoPreview');
+                photoPreviewDiv.innerHTML = `<p>Click to upload photo</p>`;
+                if (formData.personalInfo) {
+                    delete formData.personalInfo.profilePhotoUrl;
+                }
+                console.log('formData updated:', formData);
+            }
+        });
+
+
+        document.querySelectorAll('.form-step[data-step="2"] input, .form-step[data-step="2"] select, .form-step[data-step="2"] textarea').forEach(input => {
+            input.addEventListener('change', (e) => {
+                // Special handling for radio/checkbox groups
+                if (input.name === 'maritalStatus') {
+                    handleChange(e, 'familyDetails');
+                    toggleMaritalFields(e.target.value);
+                } else if (input.name === 'childrenAgeGroup' || input.name === 'seniorCitizensAgeGroup') {
+                    handleChange(e, 'familyDetails');
+                } else {
+                    handleChange(e, 'familyDetails');
+                }
+            });
+        });
+
+        document.querySelectorAll('.form-step[data-step="7"] input, .form-step[data-step="7"] select, .form-step[data-step="7"] textarea').forEach(input => {
+            input.addEventListener('change', (e) => {
+                if (input.name === 'employmentType' || input.name === 'preferredLocations') { // Multi-select/comma-separated
+                    handleChange(e, 'jobPreferences');
+                } else if (input.name === 'immediateJoiner') {
+                    handleChange(e, 'jobPreferences');
+                    toggleAvailabilityField(e.target.value);
+                }
+                else {
+                    handleChange(e, 'jobPreferences');
+                }
+            });
+        });
+
+
+        // Validation function
+        function validateCurrentStep() {
+            // Hide any previous messages at the start of validation
+            messageDisplay.classList.add('hidden'); // Ensure the div is hidden
+            messageText.textContent = ''; // Clear text as well
+            if (messageTimeoutId) { // Clear any pending timeout
+                clearTimeout(messageTimeoutId);
+            }
+
+            const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                // For radio buttons, check if at least one in the group is checked
+                if (field.type === 'radio') {
+                    const radioGroup = document.querySelectorAll(`input[name="${field.name}"]`);
+                    const isAnyRadioChecked = Array.from(radioGroup).some(radio => radio.checked);
+                    if (!isAnyRadioChecked) {
+                        isValid = false;
+                        // No visual indicator for radio groups, rely on alert
+                    }
+                } else if (field.type === 'checkbox') {
+                    // For single required checkboxes
+                    if (!field.checked) {
+                        field.style.borderColor = '#dc3545';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }
+                } else if (field.type === 'file') {
+                    // For file inputs, check if a file is selected
+                    if (field.required && (!field.files || field.files.length === 0)) {
+                        field.closest('.photo-upload').style.borderColor = '#dc3545'; // Highlight the upload area
+                        isValid = false;
+                    } else {
+                        field.closest('.photo-upload').style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    }
+                }
+                else if (!field.value.trim()) {
+                    field.style.borderColor = '#dc3545';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                }
+            });
+
+            // Specific validation for dynamic sections (e.g., at least one entry)
+            // For education, ensure the default entry is filled
+            if (currentStep === 3) {
+                const defaultEduFields = document.querySelectorAll('#defaultEducationEntry input[required], #defaultEducationEntry select[required], #defaultEducationEntry textarea[required]');
+                defaultEduFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = '#dc3545';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    }
+                });
+                if (!isValid) {
+                    showMessage('Please fill in all required fields in the default educational qualification.', 'error');
+                }
+            }
+
+            // Work Experience validation
+            if (currentStep === 4) {
+                const hasWorkExperience = formData.workExperience ? formData.workExperience.hasWorkExperience : '';
+                if (!hasWorkExperience) {
+                    showMessage('Please select whether you have work experience.', 'error');
+                    isValid = false;
+                } else if (hasWorkExperience === 'Yes' && (!formData.workExperience.entries || formData.workExperience.entries.length === 0)) {
+                    showMessage('Please add at least one work experience entry.', 'error');
+                    isValid = false;
+                }
+            }
+
+            // Projects validation
+            if (currentStep === 5) {
+                const hasProjects = formData.projects ? formData.projects.hasProjects : '';
+                if (!hasProjects) {
+                    showMessage('Please select whether you have any projects.', 'error');
+                    isValid = false;
+                } else if (hasProjects === 'Yes' && (!formData.projects.entries || formData.projects.entries.length === 0)) {
+                    showMessage('Please add at least one project entry.', 'error');
+                    isValid = false;
+                }
+            }
+
+
+            if (currentStep === 6 && (!formData.skills || formData.skills.length === 0)) {
+                showMessage('Please add at least one skill.', 'error');
+                isValid = false;
+            }
+            if (currentStep === 6 && (!formData.languages || formData.languages.length === 0)) {
+                showMessage('Please add at least one language.', 'error');
+                isValid = false;
+            }
+            if (currentStep === 7 && (!formData.preferredJobRoles || formData.preferredJobRoles.length === 0)) {
+                showMessage('Please add at least one preferred job role.', 'error');
+                isValid = false;
+            }
+
+
+            if (!isValid) {
+                showMessage('Please fill in all required fields before proceeding.', 'error');
+            }
+
+            return isValid;
+        }
+
+        // Navigation button handlers
+        nextButton.addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                completedSteps.add(currentStep);
+                currentStep++;
+                updateProgressBar();
+                showStep(currentStep);
+                populateForm(); // Repopulate form fields after moving to next step
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            messageDisplay.classList.add('hidden'); // Hide message when navigating back
+            messageText.textContent = ''; // Clear text as well
+            if (messageTimeoutId) { // Clear any pending timeout
+                clearTimeout(messageTimeoutId);
+            }
+            messageDisplay.classList.remove('info', 'success', 'error'); // Also clear type classes
+
+            currentStep--;
+            updateProgressBar();
+            showStep(currentStep);
+            populateForm(); // Repopulate form fields after moving to previous step
+        });
+
+        submitButton.addEventListener('click', () => {
+            if (validateCurrentStep()) {
+                completedSteps.add(currentStep);
+                showMessage('Form Completed!', 'success');
+                console.log('Final Form Data:', formData);
+                // Here you would typically send the formData to a server
+            }
+        });
+
+        // Initial setup on window load
+        window.onload = () => {
+            // Ensure formData.education[0] exists for the default entry
+            if (!formData.education) formData.education = [];
+            if (!formData.education[0]) formData.education[0] = {};
+
+            // Initialize workExperience and projects with a default hasExperience/hasProjects value
+            if (!formData.workExperience) formData.workExperience = { hasWorkExperience: 'No' };
+            if (!formData.projects) formData.projects = { hasProjects: 'No' };
+
+            populateForm(); // Populate form with initial empty data or previously saved data (if local storage was used)
+            updateProgressBar();
+            showStep(currentStep);
+        };
+
+        // Function to add a new education entry (called by the "Add Education" button)
+        function addEducation() {
+            if (!formData.education) formData.education = [];
+            formData.education.push({ highestQualification: false }); // Add a new empty object for the new entry
+            renderDynamicSection('education', 'educationContainer', createEducationEntry, 1); // Start rendering from index 1
+        }
+    </script>
+</body>
+
+</html>

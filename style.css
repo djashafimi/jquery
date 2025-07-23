@@ -1,0 +1,181 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  /* background-image: url(https://scopeindia.org/images/scopeindia-bkg.png),
+    linear-gradient(90deg, rgb(4 11 45) 0%, #04145f 100%); */
+    /* background: linear-gradient(to right,  #1e3c72, #052866); */
+    background-image: url(./image/gradient-hexagonal-Wallpaper.jpg);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.wrapper {
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Changed from row (default) to column */
+  width: 100%;
+  max-width: 1000px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-section,
+.left-image {
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 20px;
+}
+
+.image-section img,
+.left-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.login-container,
+.otp-box {
+  padding-left: 0;
+  padding-top: 20px;
+}
+
+
+.login-form {
+  width: 100%;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+
+.input-group input {
+  
+  width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 22px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #062093;
+  border: none;
+  color: white;
+  font-size: 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #3746ca;
+}
+
+/* Responsive Layout */
+/* @media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .image-section {
+    height: 200px;
+  }
+
+  .image-section img {
+    height: 100%;
+  }
+} */
+
+
+button[type="submit"]:hover {
+  background-color: #3746ca;
+}
+
+.signup-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-text a {
+  color: #667eea;
+  text-decoration: none;
+}
+.otp-container {
+  width: 100%;
+  max-width: 350px;
+ 
+}
+
+.otp-box {
+  /* background-color: #fff; */
+  /* padding: 50px 70px; */
+  /* padding-top: 60px;
+  padding-left: 150px; */
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+
+.otp-box h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #f0ecec;
+  
+}
+
+.otp-inputs {
+  display: flex;
+  /* justify-content: space-between; */
+  gap:25px;
+  
+  margin-bottom: 20px;
+}
+
+.otp-inputs input {
+  max-width: 50px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.otp-inputs input:focus {
+  border-color: #2563eb;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3b82f6;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
