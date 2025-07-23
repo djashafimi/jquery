@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>heading</h1>
+    <ul>
+    <li>List 1</li>
+    <li>List 2</li>
+    <li>List 3</li>
+    <li>List 4</li>
+    <li>List 5</li> 
+    </ul>
+    <button>Click</button>
+    
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+               document.write("The number of li is "+ $("li").length);
+           
+            });
+           
+        });
+    </script>
+</body>
+</html>

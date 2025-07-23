@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>heading</h1>
+    <div>
+    <p>List 1</p>
+    <p>List 2</p>
+    <p>List 3</p>
+    <p>List 4</p>
+    <p>List 5</p> 
+    </div>
+    <button id="b1">Up</button>
+    <button id="b2">Down</button>
+    <script>
+        $(document).ready(function(){
+            $("#b1").click(function(){
+                $("p").fadeOut();
+            });
+           $("#b2").click(function(){
+            $("p").fadeTo();
+           })
+        });
+    </script>
+</body>
+</html>

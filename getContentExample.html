@@ -1,0 +1,34 @@
+
+<head>
+    <script src="jquery-3.7.1.min.js"></script>
+    
+    </style>
+</head>
+<body>
+   <p>
+    India is the seventh-largest country by land area and the second-most populous country in the world, with over 1.4 billion people.
+It is bordered by Pakistan to the northwest, China and Nepal to the north, Bhutan to the northeast, and Bangladesh and Myanmar to the east. To the south, it is surrounded by the Indian Ocean.
+The country features diverse landscapes, including the Himalayas in the north, deserts like the Thar Desert in the west, plains along the Ganges River, and tropical beaches along the coast.
+   </p>
+   <h1>Hello<b>world</b></h1>
+   <input type="text", value="hi">
+   <button id="b1">get</button>
+   <button id="b2">get html</button>
+   <button id="b3">get value</button>
+    <script>
+        $(document).ready(function(){
+            $("#b1").click(function(){
+              a=  $("p").text();
+              alert(a);
+            });
+            $("#b2").click(function(){
+                b=$("h1").html();
+                alert(b);
+            });
+            $("#b3").click(function(){
+                c=$("input").val();
+                alert(c)
+            });
+        });
+    </script>
+</body>

@@ -1,0 +1,69 @@
+<head>
+    <script src="jquery-3.7.1.min.js"></script>
+    <style>
+        .na{
+            color:red
+        }
+    </style>
+</head>
+<body>
+   <p>
+    Hello World.
+   </p>
+   <h1>Welcome</h1>
+   <input type="text" value="Nation">
+   <button id="b1">set</button>
+   <button id="b2">set html</button>
+   <button id="b3">set value</button>
+   
+    <script>
+        $(document).ready(function(){
+            $("#b1").click(function(){
+              $("p").text("India is my country. All Indians are my brothers and sisters");
+             
+            });
+            $("#b2").click(function(){
+                $("h1").html("<i>World</i>");
+           
+            });
+            $("#b3").click(function(){
+                $("input").val("INDIA");
+            
+            });
+        });
+    </script>
+</body>
+
+
+
+
+<style>
+.na{
+            color:red
+        }
+</style>
+
+<p>
+    Hello World.
+</p>
+<button id="b1">set</button>
+<script>
+    $(document).ready(function(){
+        $("#b1").click(function(){
+          $("p").addClass("na");
+         
+        });
+    })
+</script>
+
+
+addClass()
+removeClass()
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+<head>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<img src="./cat.png" >
+<button>Click</button>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $("img").animate({
+            height:"500px"
+        });
+    });
+});
+</script>
+</body>
